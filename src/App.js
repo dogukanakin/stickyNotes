@@ -1,25 +1,33 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import StickyNote from "./components/StickyNote"
 
 function App() {
+  const [notes, setNotes] = useState([])
+  function addNote(){
+    setNotes([
+      ...notes,
+      {
+        id:Date.now(),
+
+      },
+    ])
+  }
+
+    function removeNote(noteId) {
+        setNotes(notes.filter((item) => item.id !== noteId))
+    }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <button className="sticky-btn" onClick={addNote}>
+        Create Note +
+    </button>
+    {notes.map((item) => (
+        <StickyNote key={item.id} onClose={() => removeNote(item.id)} />
+    ))}
     </div>
-  );
+  )
 }
 
 export default App;
